@@ -2,24 +2,83 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Coffee Order</title>
+  <title>The Lounge by Suite 88</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Welcome to Our Coffee Shop</h1>
-  <form id="orderForm">
-    <label>Your Name: <input type="text" name="name" required></label><br><br>
-    <label>Table Number: <input type="text" name="table" required></label><br><br>
+  <div class="container">
+    <h1>☕ The Lounge by Suite 88</h1>
+    <p>Welcome! Please place your order below.</p>
 
-    <h2>Menu</h2>
-    <label><input type="checkbox" name="items" value="Latte"> Latte</label><br>
-    <label><input type="checkbox" name="items" value="Cappuccino"> Cappuccino</label><br>
-    <label><input type="checkbox" name="items" value="Croissant"> Croissant</label><br>
-    <label><input type="checkbox" name="items" value="Muffin"> Muffin</label><br><br>
+    <form id="orderForm">
+      <label>Name: <input type="text" name="name" required></label><br>
+      <label>Table Number / Pickup: <input type="text" name="table" required></label><br>
 
-    <button type="submit">Place Order</button>
-  </form>
+      <h2>COFFEE & BEVERAGES</h2>
+      <label><input type="checkbox" name="items" value="Hot/Iced Chocolate - 26 AED"> Hot/Iced Chocolate - 26 AED</label><br>
+      <label><input type="checkbox" name="items" value="Mocha Latte - 25 AED"> Mocha Latte - 25 AED</label><br>
+      <label><input type="checkbox" name="items" value="Coffee Latte - 25 AED"> Coffee Latte - 25 AED</label><br>
+      <label><input type="checkbox" name="items" value="Cortado - 21 AED"> Cortado - 21 AED</label><br>
+      <label><input type="checkbox" name="items" value="Espresso - 16 AED"> Espresso - 16 AED</label><br>
+      <label><input type="checkbox" name="items" value="Hot/Iced Matcha Latte - 35 AED"> Hot/Iced Matcha Latte - 35 AED</label><br>
+      <label><input type="checkbox" name="items" value="Spanish Latte - 24 AED"> Spanish Latte - 24 AED</label><br>
+      <label><input type="checkbox" name="items" value="V60 - 30 AED"> V60 - 30 AED</label><br>
+      <label><input type="checkbox" name="items" value="Cappuccino - 24 AED"> Cappuccino - 24 AED</label><br>
+      <label><input type="checkbox" name="items" value="Piccolo - 19 AED"> Piccolo - 19 AED</label><br>
+      <label><input type="checkbox" name="items" value="Flat White - 24 AED"> Flat White - 24 AED</label><br>
+      <label><input type="checkbox" name="items" value="Affogato - 28 AED"> Affogato - 28 AED</label><br>
+      <label><input type="checkbox" name="items" value="Freddo Espresso - 22 AED"> Freddo Espresso - 22 AED</label><br>
+      <label><input type="checkbox" name="items" value="Iced Spanish Latte - 25 AED"> Iced Spanish Latte - 25 AED</label><br>
+      <label><input type="checkbox" name="items" value="Iced Vanilla Latte - 25 AED"> Iced Vanilla Latte - 25 AED</label><br>
+      <label><input type="checkbox" name="items" value="Iced Caramel Latte - 25 AED"> Iced Caramel Latte - 25 AED</label><br>
+      <label><input type="checkbox" name="items" value="Americano - 20 AED"> Americano - 20 AED</label><br>
+      <label><input type="checkbox" name="items" value="Creamy Latte - 25 AED"> Creamy Latte - 25 AED</label><br>
+      <label><input type="checkbox" name="items" value="Nitrus Coffee - 25 AED"> Nitrus Coffee - 25 AED</label><br>
+      <label><input type="checkbox" name="items" value="Tonic Water - 10 AED"> Tonic Water - 10 AED</label><br>
+      <label><input type="checkbox" name="items" value="Orange - 20 AED"> Orange - 20 AED</label><br>
+      <label><input type="checkbox" name="items" value="Hot Caramel Latte - 24 AED"> Hot Caramel Latte - 24 AED</label><br>
+      <label><input type="checkbox" name="items" value="Hot Vanilla Latte - 24 AED"> Hot Vanilla Latte - 24 AED</label><br>
+      <label><input type="checkbox" name="items" value="Long Black - 22 AED"> Long Black - 22 AED</label><br>
+      <label><input type="checkbox" name="items" value="Bacha Coffee - 20 AED"> Bacha Coffee - 20 AED</label><br>
+      <label><input type="checkbox" name="items" value="Turkish Coffee - 20 AED"> Turkish Coffee - 20 AED</label><br>
+      <label><input type="checkbox" name="items" value="Sparkling Water - 6 AED"> Sparkling Water - 6 AED</label><br>
+      <label><input type="checkbox" name="items" value="Ginger Ale - 5 AED"> Ginger Ale - 5 AED</label><br>
+      <label><input type="checkbox" name="items" value="Green Juice - 30 AED"> Green Juice - 30 AED</label><br>
 
-  <div id="message"></div>
+      <h2>DESSERTS</h2>
+      <label><input type="checkbox" name="items" value="Frostie Ice Cream - 25 AED"> Frostie Ice Cream - 25 AED</label><br>
+      <label><input type="checkbox" name="items" value="Mango Ice Cream - 16 AED"> Mango Ice Cream - 16 AED</label><br>
+      <label><input type="checkbox" name="items" value="Protein Balls - 20 AED"> Protein Balls - 20 AED</label><br>
+      <label><input type="checkbox" name="items" value="Waffle with Ice Cream - 20 AED"> Waffle with Ice Cream - 20 AED</label><br>
+      <label><input type="checkbox" name="items" value="Cookies - 10 AED"> Cookies - 10 AED</label><br>
+
+      <h2>MEALS</h2>
+      <label><input type="checkbox" name="items" value="Avocado Toast - 40 AED"> Avocado Toast - 40 AED</label><br>
+      <label><input type="checkbox" name="items" value="Four Cheese Toast - 35 AED"> Four Cheese Toast - 35 AED</label><br>
+      <label><input type="checkbox" name="items" value="Acai Bowl - 40 AED"> Acai Bowl - 40 AED</label><br>
+      <label><input type="checkbox" name="items" value="Chia Pudding - 25 AED"> Chia Pudding - 25 AED</label><br>
+      <label><input type="checkbox" name="items" value="Wholesome Cup - 35 AED"> Wholesome Cup - 35 AED</label><br>
+      <label><input type="checkbox" name="items" value="Croissant - 15 AED"> Croissant - 15 AED</label><br>
+
+      <h2>TEA</h2>
+      <label><input type="checkbox" name="items" value="Flavoured Tea - 12 AED"> Flavoured Tea - 12 AED</label><br>
+      <label><input type="checkbox" name="items" value="Wellness Herbal Tea - 15 AED"> Wellness Herbal Tea - 15 AED</label><br>
+      <label><input type="checkbox" name="items" value="Moroccan Tea - 15 AED"> Moroccan Tea - 15 AED</label><br>
+      <label><input type="checkbox" name="items" value="Green / Camomile / English Tea - 12 AED"> Green / Camomile / English Tea - 12 AED</label><br>
+
+      <h2>MILKSHAKES / PROTEIN</h2>
+      <label><input type="checkbox" name="items" value="Pistachio - 40 AED"> Pistachio - 40 AED</label><br>
+      <label><input type="checkbox" name="items" value="Vanilla - 40 AED"> Vanilla - 40 AED</label><br>
+      <label><input type="checkbox" name="items" value="Banana - 40 AED"> Banana - 40 AED</label><br>
+      <label><input type="checkbox" name="items" value="Protein - 40 AED"> Protein - 40 AED</label><br>
+      <label><input type="checkbox" name="items" value="Raspberry - 40 AED"> Raspberry - 40 AED</label><br>
+      <label><input type="checkbox" name="items" value="Espresso Dates - 40 AED"> Espresso Dates - 40 AED</label><br>
+
+      <button type="submit">Place Order</button>
+    </form>
+
+    <div id="message"></div>
+  </div>
 
   <script>
     const form = document.getElementById('orderForm');
