@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title>Admin - The Lounge by Suite 88</title>
-  <link rel="stylesheet" href="main-style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
-    <h1>☕ Admin Panel - The Lounge by Suite 88</h1>
-    <p>Live Incoming Orders</p>
+    <h1>🧾 Admin Panel - The Lounge by Suite 88</h1>
+    <p>Live Incoming Orders:</p>
     <div id="orders"></div>
   </div>
 
@@ -23,10 +23,18 @@
         ordersDiv.innerHTML = '<p>No orders yet.</p>';
       } else {
         orders.forEach(order => {
+          const total = order.items.reduce((sum, item) => {
+            const match = item.match(/- (\d+)/);
+            return sum + (match ? parseInt(match[1]) : 0);
+          }, 0);
+
           const orderHTML = `
-            <div style="margin-bottom: 15px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
-              <strong>${order.time}</strong> - <strong>${order.name}</strong> (${order.table})<br>
-              Items: ${order.items.join(', ')}
+            <div style="margin-bottom: 20px; padding: 15px; border: 2px solid #c69c6d; border-radius: 12px; background: #fefcf9;">
+              <strong>🕒 ${order.time}</strong><br>
+              <strong>👤 ${order.name}</strong> | Table/Pickup: <strong>${order.table}</strong><br>
+              <strong>🧾 Items:</strong> ${order.items.join(', ')}<br>
+              ${order.request ? `<strong>📝 Request:</strong> ${order.request}<br>` : ''}
+              <strong>💰 Total: ${total} AED</strong>
             </div>
           `;
           ordersDiv.innerHTML += orderHTML;
@@ -34,7 +42,6 @@
       }
     }
 
-    // Fetch orders every 5 seconds
     setInterval(fetchOrders, 5000);
     fetchOrders();
   </script>
