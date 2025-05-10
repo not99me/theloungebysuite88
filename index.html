@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Coffee Order</title>
+</head>
+<body>
+  <h1>Welcome to Our Coffee Shop</h1>
+  <form id="orderForm">
+    <label>Your Name: <input type="text" name="name" required></label><br><br>
+    <label>Table Number: <input type="text" name="table" required></label><br><br>
+
+    <h2>Menu</h2>
+    <label><input type="checkbox" name="items" value="Latte"> Latte</label><br>
+    <label><input type="checkbox" name="items" value="Cappuccino"> Cappuccino</label><br>
+    <label><input type="checkbox" name="items" value="Croissant"> Croissant</label><br>
+    <label><input type="checkbox" name="items" value="Muffin"> Muffin</label><br><br>
+
+    <button type="submit">Place Order</button>
+  </form>
+
+  <div id="message"></div>
+
+  <script>
+    const form = document.getElementById('orderForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const data = {
+        name: formData.get('name'),
+        table: formData.get('table'),
+        items: formData.getAll('items')
+      };
+
+      const res = await fetch('/submit-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      const result = await res.text();
+      document.getElementById('message').innerText = result;
+      form.reset();
+    });
+  </script>
+</body>
+</html>
