@@ -22,7 +22,7 @@
       if (orders.length === 0) {
         ordersDiv.innerHTML = '<p>No orders yet.</p>';
       } else {
-        orders.forEach(order => {
+        orders.forEach((order, index) => {
           const total = order.items.reduce((sum, item) => {
             const match = item.match(/- (\d+)/);
             return sum + (match ? parseInt(match[1]) : 0);
@@ -34,11 +34,22 @@
               <strong>👤 ${order.name}</strong> | Table/Pickup: <strong>${order.table}</strong><br>
               <strong>🧾 Items:</strong> ${order.items.join(', ')}<br>
               ${order.request ? `<strong>📝 Request:</strong> ${order.request}<br>` : ''}
-              <strong>💰 Total: ${total} AED</strong>
+              <strong>💰 Total: ${total} AED</strong><br><br>
+              <button onclick="markAsDone(${index})" style="padding: 8px 12px; background: #c69c6d; color: white; border: none; border-radius: 5px; cursor: pointer;">✅ Mark as Done</button>
             </div>
           `;
           ordersDiv.innerHTML += orderHTML;
         });
+      }
+    }
+
+    async function markAsDone(index) {
+      const res = await fetch(`/mark-done/${index}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (data.success) {
+        fetchOrders();
+      } else {
+        alert('Failed to mark as done.');
       }
     }
 
