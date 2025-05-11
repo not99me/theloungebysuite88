@@ -13,7 +13,7 @@
 
     <form id="orderForm">
       <label>Name: <input type="text" name="name" required></label><br>
-      <label>Table Number / Pickup: <input type="text" name="table" required></label><br>
+  
 
       <h2>☕ Coffee & Beverages</h2>
       <label><input type="checkbox" name="items" value="Hot/Iced Chocolate - 26" data-price="26"> Hot/Iced Chocolate - 26 AED</label><br>
@@ -107,11 +107,11 @@
       e.preventDefault();
       const formData = new FormData(form);
       const data = {
-        name: formData.get('name'),
-        table: formData.get('table'),
-        request: formData.get('request'),
-        items: formData.getAll('items')
-      };
+  name: formData.get('name'),
+  request: formData.get('request'),
+  items: formData.getAll('items')
+};
+
 
       const res = await fetch('/submit-order', {
         method: 'POST',
