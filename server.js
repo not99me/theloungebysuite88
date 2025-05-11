@@ -34,6 +34,17 @@ app.get('/orders', (req, res) => {
   res.json(orders);
 });
 
+// ✅ New Endpoint to Remove an Order by Index
+app.delete('/mark-done/:index', (req, res) => {
+  const index = parseInt(req.params.index);
+  if (!isNaN(index) && orders[index]) {
+    orders.splice(index, 1);
+    res.send({ success: true });
+  } else {
+    res.status(400).send({ success: false, message: 'Order not found' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
