@@ -9,10 +9,9 @@ app.use(express.json());
 let orders = [];
 
 app.post('/submit-order', (req, res) => {
-  const { name, table, items, request } = req.body;
+  const { name, items, request } = req.body;
   const order = {
     name,
-    table,
     items,
     request,
     time: new Date().toLocaleString('en-AE', { timeZone: 'Asia/Dubai' })
@@ -21,12 +20,11 @@ app.post('/submit-order', (req, res) => {
 
   console.log(`New Order Received:
   Name: ${name}
-  Table: ${table}
   Items: ${items.join(', ')}
   Request: ${request}
   `);
 
-  res.send(`✅ Thank you ${name}! Your order has been received for Table ${table}.`);
+  res.send(`✅ Thank you ${name}! Your order has been received.`);
 });
 
 // Endpoint to get all orders
