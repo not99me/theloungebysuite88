@@ -1,129 +1,511 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>The Lounge by Suite 88</title>
-  <link rel="stylesheet" href="style.css">
-  
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Lounge by Suite 88</title>
+<style>
+  :root{
+    --espresso:#2c1c14;
+    --cream:#f7f0e4;
+    --latte:#e8d9c0;
+    --terracotta:#b5562e;
+    --gold:#c08a3e;
+    --ink:#3a2a1f;
+    --line: rgba(58,42,31,0.12);
+    --serif: 'Iowan Old Style','Georgia','Times New Roman',serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    background:var(--espresso);
+    color:var(--cream);
+    padding:48px 24px 36px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  header::after{
+    content:"";
+    position:absolute;
+    left:0;right:0;bottom:0;
+    height:6px;
+    background:repeating-linear-gradient(45deg, var(--gold) 0 10px, var(--terracotta) 10px 20px);
+    opacity:.85;
+  }
+  .brand-eyebrow{
+    font-size:12px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin:0 0 10px;
+  }
+  header h1{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(32px,6vw,52px);
+    margin:0 0 10px;
+    letter-spacing:.01em;
+  }
+  header p{
+    margin:0;
+    font-size:15px;
+    color:var(--latte);
+    max-width:480px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+
+  /* ---------- Layout ---------- */
+  .wrap{
+    max-width:1080px;
+    margin:0 auto;
+    padding:36px 20px 120px;
+    display:grid;
+    grid-template-columns:1fr 320px;
+    gap:40px;
+    align-items:start;
+  }
+  @media (max-width:840px){
+    .wrap{grid-template-columns:1fr;}
+  }
+
+  /* ---------- Name field ---------- */
+  .name-field{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:18px 20px;
+    margin-bottom:28px;
+  }
+  .name-field label{
+    display:block;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.12em;
+    color:var(--terracotta);
+    margin-bottom:8px;
+    font-weight:600;
+  }
+  .name-field input{
+    width:100%;
+    border:none;
+    font-family:var(--serif);
+    font-size:20px;
+    color:var(--ink);
+    background:transparent;
+    outline:none;
+  }
+  .name-field input::placeholder{color:#b3a392;}
+
+  /* ---------- Menu sections ---------- */
+  .menu-section{margin-bottom:8px;}
+  .section-title{
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+    margin:34px 0 14px;
+  }
+  .section-title h2{
+    font-family:var(--serif);
+    font-size:23px;
+    margin:0;
+    font-weight:600;
+    color:var(--espresso);
+  }
+  .section-title .rule{
+    flex:1;
+    height:1px;
+    background:var(--line);
+  }
+  .section-title .count{
+    font-size:12px;
+    color:#a98f6f;
+    letter-spacing:.05em;
+  }
+
+  .item-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+  }
+  @media (max-width:520px){
+    .item-grid{grid-template-columns:1fr;}
+  }
+
+  .item{
+    position:relative;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    padding:13px 16px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:9px;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+  }
+  .item:hover{border-color:var(--gold);}
+  .item input{
+    position:absolute;
+    opacity:0;
+    width:0;height:0;
+  }
+  .item .name{
+    font-size:14.5px;
+    color:var(--ink);
+  }
+  .item .price{
+    font-size:13.5px;
+    color:var(--terracotta);
+    font-weight:600;
+    white-space:nowrap;
+  }
+  .item.checked{
+    background:#fbf3e6;
+    border-color:var(--terracotta);
+  }
+  .item.checked .name{font-weight:600;}
+  .item .check-dot{
+    width:16px;height:16px;
+    border-radius:50%;
+    border:1.5px solid #cdbda3;
+    flex:0 0 auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:all .15s ease;
+  }
+  .item.checked .check-dot{
+    background:var(--terracotta);
+    border-color:var(--terracotta);
+  }
+  .item.checked .check-dot::after{
+    content:"";
+    width:6px;height:6px;
+    border-radius:50%;
+    background:#fff;
+  }
+  .item-label{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex:1;
+    min-width:0;
+  }
+
+  /* ---------- Special request ---------- */
+  .request-block{margin-top:36px;}
+  .request-block h2{
+    font-family:var(--serif);
+    font-size:20px;
+    color:var(--espresso);
+    margin:0 0 10px;
+  }
+  textarea{
+    width:100%;
+    min-height:80px;
+    border:1px solid var(--line);
+    border-radius:9px;
+    padding:12px 14px;
+    font-family:var(--sans);
+    font-size:14px;
+    color:var(--ink);
+    resize:vertical;
+    background:#fff;
+  }
+  textarea:focus{outline:2px solid var(--gold); outline-offset:1px;}
+
+  /* ---------- Order summary (sticky) ---------- */
+  .summary{
+    position:sticky;
+    top:24px;
+    background:var(--espresso);
+    color:var(--cream);
+    border-radius:14px;
+    padding:24px;
+  }
+  .summary h3{
+    font-family:var(--serif);
+    margin:0 0 4px;
+    font-size:19px;
+  }
+  .summary .sub{
+    font-size:12.5px;
+    color:var(--latte);
+    margin:0 0 16px;
+  }
+  .summary-items{
+    list-style:none;
+    margin:0 0 16px;
+    padding:0;
+    max-height:260px;
+    overflow-y:auto;
+  }
+  .summary-items li{
+    display:flex;
+    justify-content:space-between;
+    gap:8px;
+    padding:7px 0;
+    border-bottom:1px solid rgba(247,240,228,0.12);
+    font-size:13.5px;
+  }
+  .summary-items li span:last-child{color:var(--gold); font-weight:600;}
+  .summary-empty{
+    font-size:13px;
+    color:var(--latte);
+    opacity:.7;
+    padding:8px 0 16px;
+  }
+  .summary-total{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    border-top:1px solid rgba(247,240,228,0.25);
+    padding-top:14px;
+    margin-bottom:18px;
+  }
+  .summary-total .label{font-size:13px; letter-spacing:.06em; text-transform:uppercase; color:var(--latte);}
+  .summary-total .value{font-family:var(--serif); font-size:26px; color:#fff;}
+
+  button[type="submit"]{
+    width:100%;
+    background:var(--terracotta);
+    color:#fff;
+    border:none;
+    border-radius:9px;
+    padding:14px 0;
+    font-size:15px;
+    font-weight:600;
+    letter-spacing:.02em;
+    cursor:pointer;
+    transition:background .15s ease, transform .1s ease;
+  }
+  button[type="submit"]:hover{background:#9c4825;}
+  button[type="submit"]:active{transform:scale(.98);}
+  button[type="submit"]:disabled{
+    background:#6b5a4a;
+    cursor:not-allowed;
+  }
+
+  #message{
+    margin-top:14px;
+    font-size:13.5px;
+    text-align:center;
+    color:var(--gold);
+    min-height:18px;
+  }
+
+  /* mobile sticky bar fallback */
+  @media (max-width:840px){
+    .summary{
+      position:fixed;
+      left:0;right:0;bottom:0;
+      top:auto;
+      border-radius:18px 18px 0 0;
+      z-index:10;
+      max-height:60vh;
+      overflow-y:auto;
+      box-shadow:0 -8px 24px rgba(0,0,0,0.25);
+    }
+    .wrap{padding-bottom:40px;}
+    body{padding-bottom:0;}
+    .summary-spacer{display:block; height:120px;}
+  }
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>☕ The Lounge by Suite 88</h1>
-    <p>Welcome! Please place your order below.</p>
 
-    <form id="orderForm">
-      <label>Name: <input type="text" name="name" required></label><br>
-  
+<header>
+  <p class="brand-eyebrow">Suite 88</p>
+  <h1>☕ The Lounge</h1>
+  <p>Pick your order from the menu below — we'll have it ready for you.</p>
+</header>
 
-      <h2>☕ Coffee & Beverages</h2>
-      <label><input type="checkbox" name="items" value="Hot/Iced Chocolate - 26" data-price="26"> Hot/Iced Chocolate - 26 AED</label><br>
-      <label><input type="checkbox" name="items" value="Mocha Latte - 25" data-price="25"> Mocha Latte - 25 AED</label><br>
-      <label><input type="checkbox" name="items" value="Coffee Latte - 25" data-price="25"> Coffee Latte - 25 AED</label><br>
-      <label><input type="checkbox" name="items" value="Cortado - 21" data-price="21"> Cortado - 21 AED</label><br>
-      <label><input type="checkbox" name="items" value="Espresso - 16" data-price="16"> Espresso - 16 AED</label><br>
-      <label><input type="checkbox" name="items" value="Hot/Iced Matcha Latte - 35" data-price="35"> Hot/Iced Matcha Latte - 35 AED</label><br>
-      <label><input type="checkbox" name="items" value="Spanish Latte - 24" data-price="24"> Spanish Latte - 24 AED</label><br>
-      <label><input type="checkbox" name="items" value="V60 - 30" data-price="30"> V60 - 30 AED</label><br>
-      <label><input type="checkbox" name="items" value="Cappuccino - 24" data-price="24"> Cappuccino - 24 AED</label><br>
-      <label><input type="checkbox" name="items" value="Piccolo - 19" data-price="19"> Piccolo - 19 AED</label><br>
-      <label><input type="checkbox" name="items" value="Flat White - 24" data-price="24"> Flat White - 24 AED</label><br>
-      <label><input type="checkbox" name="items" value="Affogato - 28" data-price="28"> Affogato - 28 AED</label><br>
-      <label><input type="checkbox" name="items" value="Freddo Espresso - 22" data-price="22"> Freddo Espresso - 22 AED</label><br>
-      <label><input type="checkbox" name="items" value="Iced Spanish Latte - 25" data-price="25"> Iced Spanish Latte - 25 AED</label><br>
-      <label><input type="checkbox" name="items" value="Iced Vanilla Latte - 25" data-price="25"> Iced Vanilla Latte - 25 AED</label><br>
-      <label><input type="checkbox" name="items" value="Iced Caramel Latte - 25" data-price="25"> Iced Caramel Latte - 25 AED</label><br>
-      <label><input type="checkbox" name="items" value="Americano - 20" data-price="20"> Americano - 20 AED</label><br>
-      <label><input type="checkbox" name="items" value="Creamy Latte - 25" data-price="25"> Creamy Latte - 25 AED</label><br>
-      <label><input type="checkbox" name="items" value="Nitrus Coffee - 25" data-price="25"> Nitrus Coffee - 25 AED</label><br>
-      <label><input type="checkbox" name="items" value="Tonic Water - 10" data-price="10"> Tonic Water - 10 AED</label><br>
-      <label><input type="checkbox" name="items" value="Orange - 20" data-price="20"> Orange - 20 AED</label><br>
-      <label><input type="checkbox" name="items" value="Hot Caramel Latte - 24" data-price="24"> Hot Caramel Latte - 24 AED</label><br>
-      <label><input type="checkbox" name="items" value="Hot Vanilla Latte - 24" data-price="24"> Hot Vanilla Latte - 24 AED</label><br>
-      <label><input type="checkbox" name="items" value="Long Black - 22" data-price="22"> Long Black - 22 AED</label><br>
-      <label><input type="checkbox" name="items" value="Bacha Coffee - 20" data-price="20"> Bacha Coffee - 20 AED</label><br>
-      <label><input type="checkbox" name="items" value="Turkish Coffee - 20" data-price="20"> Turkish Coffee - 20 AED</label><br>
-      <label><input type="checkbox" name="items" value="Sparkling Water - 6" data-price="6"> Sparkling Water - 6 AED</label><br>
-      <label><input type="checkbox" name="items" value="Ginger Ale - 5" data-price="5"> Ginger Ale - 5 AED</label><br>
-      <label><input type="checkbox" name="items" value="Green Juice - 30" data-price="30"> Green Juice - 30 AED</label><br>
+<form id="orderForm">
+  <div class="wrap">
+    <div class="menu-col">
 
-      <h2>🍰 Desserts</h2>
-      <label><input type="checkbox" name="items" value="Frostie Ice Cream - 25" data-price="25"> Frostie Ice Cream - 25 AED</label><br>
-      <label><input type="checkbox" name="items" value="Mango Ice Cream - 16" data-price="16"> Mango Ice Cream - 16 AED</label><br>
-      <label><input type="checkbox" name="items" value="Protein Balls - 20" data-price="20"> Protein Balls - 20 AED</label><br>
-      <label><input type="checkbox" name="items" value="Waffle with Ice Cream - 20" data-price="20"> Waffle with Ice Cream - 20 AED</label><br>
-      <label><input type="checkbox" name="items" value="Cookies - 10" data-price="10"> Cookies - 10 AED</label><br>
+      <div class="name-field">
+        <label for="nameInput">Your Name</label>
+        <input id="nameInput" type="text" name="name" placeholder="e.g. Sara" required>
+      </div>
 
-      <h2>🥪 Meals</h2>
-      <label><input type="checkbox" name="items" value="Avocado Toast - 40" data-price="40"> Avocado Toast - 40 AED</label><br>
-      <label><input type="checkbox" name="items" value="Four Cheese Toast - 35" data-price="35"> Four Cheese Toast - 35 AED</label><br>
-      <label><input type="checkbox" name="items" value="Acai Bowl - 40" data-price="40"> Acai Bowl - 40 AED</label><br>
-      <label><input type="checkbox" name="items" value="Chia Pudding - 25" data-price="25"> Chia Pudding - 25 AED</label><br>
-      <label><input type="checkbox" name="items" value="Wholesome Cup - 35" data-price="35"> Wholesome Cup - 35 AED</label><br>
-      <label><input type="checkbox" name="items" value="Croissant - 15" data-price="15"> Croissant - 15 AED</label><br>
+      <!-- Coffee & Beverages -->
+      <div class="menu-section" data-section="Coffee & Beverages">
+        <div class="section-title"><h2>☕ Coffee &amp; Beverages</h2><div class="rule"></div></div>
+        <div class="item-grid">
+          <!-- items injected here -->
+        </div>
+      </div>
 
-      <h2>🍵 Tea</h2>
-      <label><input type="checkbox" name="items" value="Flavoured Tea - 12" data-price="12"> Flavoured Tea - 12 AED</label><br>
-      <label><input type="checkbox" name="items" value="Wellness Herbal Tea - 15" data-price="15"> Wellness Herbal Tea - 15 AED</label><br>
-      <label><input type="checkbox" name="items" value="Moroccan Tea - 15" data-price="15"> Moroccan Tea - 15 AED</label><br>
-      <label><input type="checkbox" name="items" value="Green / Camomile / English Tea - 12" data-price="12"> Green / Camomile / English Tea - 12 AED</label><br>
+      <div class="menu-section" data-section="Desserts">
+        <div class="section-title"><h2>🍰 Desserts</h2><div class="rule"></div></div>
+        <div class="item-grid"></div>
+      </div>
 
-      <h2>🥤 Milkshakes / Protein</h2>
-      <label><input type="checkbox" name="items" value="Pistachio - 40" data-price="40"> Pistachio - 40 AED</label><br>
-      <label><input type="checkbox" name="items" value="Vanilla - 40" data-price="40"> Vanilla - 40 AED</label><br>
-      <label><input type="checkbox" name="items" value="Banana - 40" data-price="40"> Banana - 40 AED</label><br>
-      <label><input type="checkbox" name="items" value="Protein - 40" data-price="40"> Protein - 40 AED</label><br>
-      <label><input type="checkbox" name="items" value="Raspberry - 40" data-price="40"> Raspberry - 40 AED</label><br>
-      <label><input type="checkbox" name="items" value="Espresso Dates - 40" data-price="40"> Espresso Dates - 40 AED</label><br>
+      <div class="menu-section" data-section="Meals">
+        <div class="section-title"><h2>🥪 Meals</h2><div class="rule"></div></div>
+        <div class="item-grid"></div>
+      </div>
 
-      <h2>📝 Special Request</h2>
-      <textarea name="request" placeholder="e.g., Less sugar, extra hot..." style="width:100%;height:60px;"></textarea><br>
+      <div class="menu-section" data-section="Tea">
+        <div class="section-title"><h2>🍵 Tea</h2><div class="rule"></div></div>
+        <div class="item-grid"></div>
+      </div>
 
-      <p id="total">Total: 0 AED</p>
+      <div class="menu-section" data-section="Milkshakes / Protein">
+        <div class="section-title"><h2>🥤 Milkshakes / Protein</h2><div class="rule"></div></div>
+        <div class="item-grid"></div>
+      </div>
 
-      <button type="submit">Place Order</button>
-    </form>
+      <div class="request-block">
+        <h2>📝 Special Request</h2>
+        <textarea name="request" placeholder="e.g., Less sugar, extra hot..."></textarea>
+      </div>
 
-    <div id="message"></div>
+      <div class="summary-spacer"></div>
+    </div>
+
+    <aside class="summary">
+      <h3>Your Order</h3>
+      <p class="sub">Suite 88 · The Lounge</p>
+      <ul class="summary-items" id="summaryItems"></ul>
+      <div class="summary-total">
+        <span class="label">Total</span>
+        <span class="value" id="totalValue">0 AED</span>
+      </div>
+      <button type="submit" id="submitBtn" disabled>Place Order</button>
+      <div id="message"></div>
+    </aside>
   </div>
+</form>
 
-  <script>
-    const form = document.getElementById('orderForm');
-    const checkboxes = form.querySelectorAll('input[type="checkbox"]');
-    const totalDisplay = document.getElementById('total');
+<script>
+  // ---- Menu data (kept identical to original values/prices) ----
+  const MENU = {
+    "Coffee & Beverages": [
+      ["Hot/Iced Chocolate",26],["Mocha Latte",25],["Coffee Latte",25],["Cortado",21],
+      ["Espresso",16],["Hot/Iced Matcha Latte",35],["Spanish Latte",24],["V60",30],
+      ["Cappuccino",24],["Piccolo",19],["Flat White",24],["Affogato",28],
+      ["Freddo Espresso",22],["Iced Spanish Latte",25],["Iced Vanilla Latte",25],
+      ["Iced Caramel Latte",25],["Americano",20],["Creamy Latte",25],["Nitrus Coffee",25],
+      ["Tonic Water",10],["Orange",20],["Hot Caramel Latte",24],["Hot Vanilla Latte",24],
+      ["Long Black",22],["Bacha Coffee",20],["Turkish Coffee",20],["Sparkling Water",6],
+      ["Ginger Ale",5],["Green Juice",30]
+    ],
+    "Desserts": [
+      ["Frostie Ice Cream",25],["Mango Ice Cream",16],["Protein Balls",20],
+      ["Waffle with Ice Cream",20],["Cookies",10]
+    ],
+    "Meals": [
+      ["Avocado Toast",40],["Four Cheese Toast",35],["Acai Bowl",40],
+      ["Chia Pudding",25],["Wholesome Cup",35],["Croissant",15]
+    ],
+    "Tea": [
+      ["Flavoured Tea",12],["Wellness Herbal Tea",15],["Moroccan Tea",15],
+      ["Green / Camomile / English Tea",12]
+    ],
+    "Milkshakes / Protein": [
+      ["Pistachio",40],["Vanilla",40],["Banana",40],["Protein",40],
+      ["Raspberry",40],["Espresso Dates",40]
+    ]
+  };
 
-    function updateTotal() {
-      let total = 0;
-      checkboxes.forEach(cb => {
-        if (cb.checked) {
-          total += parseInt(cb.dataset.price);
-        }
-      });
-      totalDisplay.textContent = `Total: ${total} AED`;
+  // ---- Build menu DOM ----
+  document.querySelectorAll('.menu-section').forEach(section => {
+    const sectionName = section.dataset.section;
+    const grid = section.querySelector('.item-grid');
+    MENU[sectionName].forEach(([name, price]) => {
+      const value = `${name} - ${price}`;
+      const label = document.createElement('label');
+      label.className = 'item';
+      label.innerHTML = `
+        <input type="checkbox" name="items" value="${value}" data-price="${price}" data-name="${name}">
+        <span class="item-label">
+          <span class="check-dot"></span>
+          <span class="name">${name}</span>
+        </span>
+        <span class="price">${price} AED</span>
+      `;
+      grid.appendChild(label);
+    });
+  });
+
+  const form = document.getElementById('orderForm');
+  const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+  const totalValue = document.getElementById('totalValue');
+  const summaryItems = document.getElementById('summaryItems');
+  const submitBtn = document.getElementById('submitBtn');
+
+  function updateSummary() {
+    let total = 0;
+    summaryItems.innerHTML = '';
+    let any = false;
+
+    checkboxes.forEach(cb => {
+      cb.closest('.item').classList.toggle('checked', cb.checked);
+      if (cb.checked) {
+        any = true;
+        total += parseInt(cb.dataset.price);
+        const li = document.createElement('li');
+        li.innerHTML = `<span>${cb.dataset.name}</span><span>${cb.dataset.price} AED</span>`;
+        summaryItems.appendChild(li);
+      }
+    });
+
+    if (!any) {
+      summaryItems.innerHTML = '<div class="summary-empty">No items selected yet — tap the menu to add some.</div>';
     }
 
-    checkboxes.forEach(cb => cb.addEventListener('change', updateTotal));
+    totalValue.textContent = `${total} AED`;
+    submitBtn.disabled = !any;
+  }
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const formData = new FormData(form);
-      const data = {
-  name: formData.get('name'),
-  request: formData.get('request'),
-  items: formData.getAll('items')
-};
+  checkboxes.forEach(cb => cb.addEventListener('change', updateSummary));
+  updateSummary();
 
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const data = {
+      name: formData.get('name'),
+      request: formData.get('request'),
+      items: formData.getAll('items')
+    };
 
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Placing order...';
+
+    try {
       const res = await fetch('/submit-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
-
       const result = await res.text();
       document.getElementById('message').innerText = result;
       form.reset();
-      totalDisplay.textContent = "Total: 0 AED";
-    });
-  </script>
+      updateSummary();
+    } catch (err) {
+      document.getElementById('message').innerText = 'Something went wrong. Please try again.';
+    } finally {
+      submitBtn.textContent = 'Place Order';
+    }
+  });
+</script>
+
 </body>
 </html>

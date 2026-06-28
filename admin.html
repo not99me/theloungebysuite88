@@ -1,60 +1,349 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Admin - The Lounge by Suite 88</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin · The Lounge by Suite 88</title>
+<style>
+  :root{
+    --espresso:#2c1c14;
+    --cream:#f7f0e4;
+    --latte:#e8d9c0;
+    --terracotta:#b5562e;
+    --gold:#c08a3e;
+    --ink:#3a2a1f;
+    --line: rgba(58,42,31,0.12);
+    --serif: 'Iowan Old Style','Georgia','Times New Roman',serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --green:#3f7a4f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:var(--sans);
+  }
+
+  header{
+    background:var(--espresso);
+    color:var(--cream);
+    padding:26px 24px;
+    position:sticky;
+    top:0;
+    z-index:5;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .brand{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+  }
+  .brand .eyebrow{
+    font-size:11px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--gold);
+  }
+  .brand h1{
+    font-family:var(--serif);
+    margin:0;
+    font-size:22px;
+    font-weight:600;
+  }
+  .status{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:13px;
+    color:var(--latte);
+  }
+  .status .dot{
+    width:8px;height:8px;
+    border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 0 0 rgba(63,122,79,.6);
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(63,122,79,.5);}
+    70%{box-shadow:0 0 0 7px rgba(63,122,79,0);}
+    100%{box-shadow:0 0 0 0 rgba(63,122,79,0);}
+  }
+
+  main{
+    max-width:920px;
+    margin:0 auto;
+    padding:28px 20px 80px;
+  }
+
+  .summary-bar{
+    display:flex;
+    gap:14px;
+    margin-bottom:26px;
+    flex-wrap:wrap;
+  }
+  .stat{
+    flex:1;
+    min-width:140px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px 16px;
+  }
+  .stat .label{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.1em;
+    color:#a98f6f;
+    margin-bottom:6px;
+  }
+  .stat .value{
+    font-family:var(--serif);
+    font-size:26px;
+    color:var(--espresso);
+  }
+
+  #orders{display:flex; flex-direction:column; gap:14px;}
+
+  .empty-state{
+    text-align:center;
+    padding:60px 20px;
+    color:#a98f6f;
+  }
+  .empty-state .glyph{font-size:34px; display:block; margin-bottom:10px;}
+  .empty-state p{margin:0; font-size:14px;}
+
+  .order-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-left:4px solid var(--gold);
+    border-radius:11px;
+    padding:18px 20px;
+    transition:opacity .2s ease, transform .2s ease;
+  }
+  .order-card.removing{
+    opacity:0;
+    transform:translateX(8px);
+  }
+
+  .order-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+    margin-bottom:10px;
+    flex-wrap:wrap;
+  }
+  .order-who{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+  }
+  .order-name{
+    font-family:var(--serif);
+    font-size:18px;
+    color:var(--espresso);
+    font-weight:600;
+  }
+  .order-meta{
+    font-size:12.5px;
+    color:#9a8268;
+  }
+  .order-time{
+    font-size:12px;
+    color:#a98f6f;
+    white-space:nowrap;
+  }
+
+  .order-items{
+    font-size:13.5px;
+    color:var(--ink);
+    margin:10px 0;
+    line-height:1.6;
+  }
+  .order-items .tag{
+    display:inline-block;
+    background:#f6efe2;
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:3px 9px;
+    margin:0 5px 5px 0;
+    font-size:12.5px;
+  }
+
+  .order-request{
+    font-size:13px;
+    background:#fbf3e6;
+    border-radius:7px;
+    padding:8px 12px;
+    margin:8px 0;
+    color:#7a5a3a;
+  }
+
+  .order-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:12px;
+    padding-top:12px;
+    border-top:1px solid var(--line);
+  }
+  .order-total{
+    font-family:var(--serif);
+    font-size:19px;
+    color:var(--terracotta);
+    font-weight:600;
+  }
+  .done-btn{
+    background:var(--green);
+    color:#fff;
+    border:none;
+    border-radius:7px;
+    padding:9px 16px;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+    transition:background .15s ease, transform .1s ease;
+  }
+  .done-btn:hover{background:#326241;}
+  .done-btn:active{transform:scale(.97);}
+  .done-btn:disabled{background:#b7c9bb; cursor:not-allowed;}
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>🧾 Admin Panel - The Lounge by Suite 88</h1>
-    <p>Live Incoming Orders:</p>
-    <div id="orders"></div>
+
+<header>
+  <div class="brand">
+    <span class="eyebrow">Suite 88</span>
+    <h1>🧾 The Lounge — Order Desk</h1>
+  </div>
+  <div class="status"><span class="dot"></span> Live · refreshes every 5s</div>
+</header>
+
+<main>
+  <div class="summary-bar">
+    <div class="stat">
+      <div class="label">Open Orders</div>
+      <div class="value" id="statCount">0</div>
+    </div>
+    <div class="stat">
+      <div class="label">Items Pending</div>
+      <div class="value" id="statItems">0</div>
+    </div>
+    <div class="stat">
+      <div class="label">Value Pending</div>
+      <div class="value" id="statValue">0 AED</div>
+    </div>
   </div>
 
-  <script>
-    async function fetchOrders() {
+  <div id="orders"></div>
+</main>
+
+<script>
+  function escapeHTML(str) {
+    if (str === undefined || str === null) return '';
+    return String(str)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+
+  async function fetchOrders() {
+    let orders;
+    try {
       const res = await fetch('/orders');
-      const orders = await res.json();
-      const ordersDiv = document.getElementById('orders');
-      ordersDiv.innerHTML = '';
-
-      if (orders.length === 0) {
-        ordersDiv.innerHTML = '<p>No orders yet.</p>';
-      } else {
-        orders.forEach((order, index) => {
-          const total = order.items.reduce((sum, item) => {
-            const match = item.match(/- (\d+)/);
-            return sum + (match ? parseInt(match[1]) : 0);
-          }, 0);
-
-          const orderHTML = `
-            <div style="margin-bottom: 20px; padding: 15px; border: 2px solid #c69c6d; border-radius: 12px; background: #fefcf9;">
-              <strong>🕒 ${order.time}</strong><br>
-              <strong>👤 ${order.name}</strong> | Table/Pickup: <strong>${order.table}</strong><br>
-              <strong>🧾 Items:</strong> ${order.items.join(', ')}<br>
-              ${order.request ? `<strong>📝 Request:</strong> ${order.request}<br>` : ''}
-              <strong>💰 Total: ${total} AED</strong><br><br>
-              <button onclick="markAsDone(${index})" style="padding: 8px 12px; background: #c69c6d; color: white; border: none; border-radius: 5px; cursor: pointer;">✅ Mark as Done</button>
-            </div>
-          `;
-          ordersDiv.innerHTML += orderHTML;
-        });
-      }
+      orders = await res.json();
+    } catch (err) {
+      return; // keep last known state on a transient network hiccup
     }
 
-    async function markAsDone(index) {
+    const ordersDiv = document.getElementById('orders');
+    const statCount = document.getElementById('statCount');
+    const statItems = document.getElementById('statItems');
+    const statValue = document.getElementById('statValue');
+
+    if (!orders || orders.length === 0) {
+      ordersDiv.innerHTML = `
+        <div class="empty-state">
+          <span class="glyph">☕</span>
+          <p>No orders yet. New orders will appear here automatically.</p>
+        </div>`;
+      statCount.textContent = '0';
+      statItems.textContent = '0';
+      statValue.textContent = '0 AED';
+      return;
+    }
+
+    let totalItems = 0;
+    let totalValue = 0;
+
+    const html = orders.map((order, index) => {
+      const itemTotal = (order.items || []).reduce((sum, item) => {
+        const match = item.match(/- (\d+)/);
+        return sum + (match ? parseInt(match[1]) : 0);
+      }, 0);
+
+      totalItems += (order.items || []).length;
+      totalValue += itemTotal;
+
+      const itemTags = (order.items || [])
+        .map(item => `<span class="tag">${escapeHTML(item)}</span>`)
+        .join('');
+
+      return `
+        <div class="order-card" data-index="${index}">
+          <div class="order-top">
+            <div class="order-who">
+              <span class="order-name">${escapeHTML(order.name) || 'Guest'}</span>
+              <span class="order-meta">Table / Pickup: ${escapeHTML(order.table) || '—'}</span>
+            </div>
+            <span class="order-time">🕒 ${escapeHTML(order.time)}</span>
+          </div>
+          <div class="order-items">${itemTags}</div>
+          ${order.request ? `<div class="order-request">📝 ${escapeHTML(order.request)}</div>` : ''}
+          <div class="order-bottom">
+            <span class="order-total">${itemTotal} AED</span>
+            <button class="done-btn" onclick="markAsDone(${index}, this)">✅ Mark as Done</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    ordersDiv.innerHTML = html;
+    statCount.textContent = orders.length;
+    statItems.textContent = totalItems;
+    statValue.textContent = `${totalValue} AED`;
+  }
+
+  async function markAsDone(index, btn) {
+    btn.disabled = true;
+    btn.textContent = 'Marking...';
+    try {
       const res = await fetch(`/mark-done/${index}`, { method: 'DELETE' });
       const data = await res.json();
       if (data.success) {
-        fetchOrders();
+        const card = btn.closest('.order-card');
+        card.classList.add('removing');
+        setTimeout(fetchOrders, 200);
       } else {
         alert('Failed to mark as done.');
+        btn.disabled = false;
+        btn.textContent = '✅ Mark as Done';
       }
+    } catch (err) {
+      alert('Failed to mark as done.');
+      btn.disabled = false;
+      btn.textContent = '✅ Mark as Done';
     }
+  }
 
-    setInterval(fetchOrders, 5000);
-    fetchOrders();
-  </script>
+  setInterval(fetchOrders, 5000);
+  fetchOrders();
+</script>
+
 </body>
 </html>
